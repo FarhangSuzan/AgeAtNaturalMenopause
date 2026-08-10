@@ -92,24 +92,9 @@ Genes significant at `MR_FDR < 0.05` in both the primary and sensitivity analyse
 
 ### Main Results
 
-**Primary MR**
+The final robust MR analysis identified **358 genes** that were significant at `MR_FDR < 0.05` in both the primary and sensitivity analyses.
 
-- 894 genes tested
-- 4,175 gene–tissue MR tests
-- 2,477 significant gene–tissue associations at FDR < 0.05
-- 641 significant genes
-
-**Sensitivity MR**
-
-- 472 genes tested
-- 2,226 gene–tissue MR tests
-- 1,477 significant gene–tissue associations at FDR < 0.05
-- 359 significant genes
-
-**Robust overlap**
-
-- 358 genes significant in both primary and sensitivity analyses
-- 352 genes with at least one identical significant tissue in both analyses
+These 358 genes were retained as the final robust MR-supported gene set for downstream gene prioritization.
 
 
 ### Primary MR Script
