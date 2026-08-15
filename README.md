@@ -1,10 +1,10 @@
 # ANM_MDD_Anxiety_MitoBrain
 
-This repository contains analysis pipelines developed for investigating the genetic architecture of **age at natural menopause (ANM)** and its relationship with **major depressive disorder (MDD)**, **anxiety**, **brain cell types**, and **mitochondrial biology**.
+This repository contains analysis pipelines developed for investigating the genetic architecture of **age at natural menopause (ANM)** and its relationship with **major depressive disorder (MDD)**, **anxiety**, **brain cell types**, **gene expression**, and **mitochondrial biology**.
 
 ## Research Overview
 
-The project integrates genome-wide association studies (GWAS), statistical genetics, fine-mapping, functional genomics, Mendelian randomization, and single-cell analyses to identify and prioritize genetic variants and genes underlying reproductive aging and neuropsychiatric biology.
+The project integrates genome-wide association studies (GWAS), statistical genetics, fine-mapping, functional genomics, Mendelian randomization, Bayesian colocalization, and single-cell analyses to identify and prioritize genetic variants and genes underlying reproductive aging and neuropsychiatric biology.
 
 ## Current Analysis Pipelines
 
@@ -42,7 +42,7 @@ Conditionally independent cis-eQTLs were obtained from GTEx v8 for 15 tissues:
 - Ovary
 - Pituitary
 
-Because GTEx v8 uses GRCh38 whereas the ANM GWAS uses GRCh37/hg19, GTEx variant coordinates were converted from GRCh38 to GRCh37 using UCSC liftOver before matching and allele harmonization with the ANM GWAS.
+Because GTEx v8 uses GRCh38 whereas the ANM GWAS used for the MR workflow is in GRCh37/hg19, GTEx variant coordinates were converted from GRCh38 to GRCh37 using UCSC liftOver before matching and allele harmonization with the ANM GWAS.
 
 
 ### Input Data
@@ -94,7 +94,7 @@ Genes significant at `MR_FDR < 0.05` in both the primary and sensitivity analyse
 
 The final robust MR analysis identified **358 genes** that were significant at `MR_FDR < 0.05` in both the primary and sensitivity analyses.
 
-These 358 genes were retained as the final robust MR-supported gene set for downstream gene prioritization.
+These 358 genes were retained as the final robust MR-supported gene set for downstream gene prioritization and colocalization.
 
 
 ### Primary MR Script
@@ -135,6 +135,108 @@ The resulting significant genes are compared with those from the primary MR anal
 - 1000 Genomes Project Phase 3 European-ancestry reference data
 
 
+## GTEx v8 Colocalization of MR-Prioritized Genes
+
+Bayesian colocalization was performed to evaluate whether ANM GWAS associations and GTEx v8 cis-eQTL associations for robust MR-supported genes were consistent with a shared causal variant.
+
+For each gene, the GTEx v8 tissue corresponding to `MR_Best_shared_tissue` was selected. A symmetric **±500 kb** region centered on the independent ANM representative SNP was defined in **GRCh38** coordinates.
+
+Regional GTEx v8 cis-eQTL summary statistics were accessed through the tabix-indexed imported datasets distributed by the **eQTL Catalogue**. Unlike the MR analysis, which uses selected conditionally independent cis-eQTL instruments, the colocalization analysis uses all available regional cis-eQTL variants that can be matched to the ANM GWAS and pass variant-level quality control.
+
+The eQTL Catalogue GTEx v8 tabix file locations are documented here:
+
+- `https://github.com/eQTL-Catalogue/eQTL-Catalogue-resources/blob/master/tabix/tabix_ftp_paths_imported.tsv`
+
+### Colocalization Workflow
+
+The colocalization workflow consists of two scripts:
+
+#### `04_prepare_GTEx_coloc_inputs.R`
+
+This script:
+
+1. reads the robust MR-supported gene manifest;
+2. selects the MR-best tissue for each gene;
+3. locates the corresponding ANM representative SNP in GRCh38;
+4. defines a symmetric ±500 kb locus;
+5. queries the corresponding GTEx v8 regional cis-eQTL summary statistics from the eQTL Catalogue tabix resources;
+6. retains rows corresponding to the target Ensembl gene; and
+7. saves one local gene-by-tissue regional file for downstream colocalization.
+
+#### `05_MR_prioritized_gene_colocalization.R`
+
+This script:
+
+1. reads the prepared regional GTEx v8 cis-eQTL files;
+2. extracts the corresponding ANM GWAS variants;
+3. matches variants by genomic position and rsID;
+4. harmonizes alleles between GTEx and ANM;
+5. removes allele mismatches and invalid MAF values;
+6. estimates phenotype standard deviations required by `coloc`;
+7. runs `coloc.abf`;
+8. calculates regional posterior probabilities PP.H0–PP.H4;
+9. calculates SNP-level `SNP.PP.H4` values;
+10. identifies the top shared SNP;
+11. performs sensitivity analyses across alternative `p12` priors; and
+12. exports SNP-level and regional colocalization summaries.
+
+### Colocalization Parameters
+
+Primary prior probabilities were:
+
+- `p1 = 1 × 10^-4`
+- `p2 = 1 × 10^-4`
+- `p12 = 1 × 10^-5`
+
+Sensitivity analyses evaluated:
+
+- `p12 = 1 × 10^-6`
+- `p12 = 5 × 10^-6`
+- `p12 = 1 × 10^-5`
+- `p12 = 5 × 10^-5`
+- `p12 = 1 × 10^-4`
+
+Regional colocalization was interpreted as:
+
+- **Strong H4 support:** `PP.H4 ≥ 0.80`
+- **Moderate H4 support:** `0.50 ≤ PP.H4 < 0.80`
+- **H3 favored / distinct signals:** `PP.H3 > PP.H4`
+
+`SNP.PP.H4` is interpreted separately from regional `PP.H4`: it represents the posterior probability assigned to an individual candidate shared variant conditional on H4, whereas regional `PP.H4` quantifies support for the shared-causal-variant hypothesis itself.
+
+### Colocalization Results
+
+Among **358 robust MR-supported genes**, **352** had sufficient information for the predefined best-tissue colocalization workflow.
+
+Of these:
+
+- **344 genes** had usable GTEx v8 regional cis-eQTL data and completed colocalization;
+- **8 genes** lacked target-gene GTEx cis-eQTL rows within the predefined best-tissue ±500 kb window;
+- **44 genes** showed strong colocalization support with `PP.H4 ≥ 0.80`;
+- **13 genes** showed moderate H4 support with `0.50 ≤ PP.H4 < 0.80`; and
+- **278 genes** were H3-favored, indicating stronger support for distinct ANM and eQTL causal signals within the tested region.
+
+Strong colocalization was incorporated as an additional gene-prioritization evidence layer. The original `Evidence_count` was retained, and `Evidence_count_with_coloc` adds one point for genes with `Coloc_strong_H4 = TRUE`.
+
+
+### Colocalization Software Requirements
+
+- R
+- data.table
+- openxlsx
+- coloc
+- seqminer
+
+
+## Data Sources
+
+- **ANM GWAS:** GWAS Catalog study accession `GCST90292553`
+- **GTEx v8:** GTEx Portal
+- **GTEx v8 regional cis-eQTL summary statistics for colocalization:** eQTL Catalogue imported GTEx v8 tabix resources
+- **1000 Genomes Project Phase 3 European reference panel:** International Genome Sample Resource
+- **MDD and anxiety GWAS:** Psychiatric Genomics Consortium
+
+
 ## Citation
 
 If you use this code, please cite the associated publication when available.
@@ -143,5 +245,4 @@ If you use this code, please cite the associated publication when available.
 
 **Author**
 
-Suzan Farhang-Sardroodi  
-University of Toronto
+Suzan Farhang-Sardroodi
