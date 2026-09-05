@@ -1,3 +1,19 @@
+# ============================================================
+# Age at Natural Menopause (ANM) Colocalization Analysis
+# ============================================================
+#
+# Author: Suzan Farhang-Sardroodi
+#
+# This code was developed by Suzan Farhang-Sardroodi for the
+# colocalization analyses of age at natural menopause (ANM)
+# reported in this study.
+#
+# The analysis evaluates whether ANM GWAS and GTEx v8 cis-eQTL
+# association signals for MR-prioritized genes are consistent
+# with a shared regional causal variant.
+#
+# Please cite the associated publication when using or adapting
+# this code.
 # =============================================================================
 # 05_MR_prioritized_gene_colocalization.R
 #
