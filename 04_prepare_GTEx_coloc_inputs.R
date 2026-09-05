@@ -1,3 +1,21 @@
+# ============================================================
+# Age at Natural Menopause (ANM) Colocalization Analysis
+# GTEx Regional Input Preparation
+# ============================================================
+#
+# Author: Suzan Farhang-Sardroodi
+#
+# This code was developed by Suzan Farhang-Sardroodi to prepare
+# regional GTEx v8 cis-eQTL summary statistics for colocalization
+# analyses of age at natural menopause (ANM) reported in this study.
+#
+# For each MR-prioritized gene, the script extracts GTEx v8
+# cis-eQTL summary statistics from a +/-500-kb region centered on
+# the representative ANM fine-mapped variant in the selected tissue.
+#
+# Please cite the associated publication when using or adapting
+# this code.
+#
 # =============================================================================
 # 04_prepare_GTEx_coloc_inputs.R
 #
