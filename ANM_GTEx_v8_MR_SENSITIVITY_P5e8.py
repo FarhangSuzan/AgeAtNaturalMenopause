@@ -1,5 +1,26 @@
 #!/usr/bin/env python3
 
+# ============================================================
+# Age at Natural Menopause (ANM) Mendelian Randomization
+# Sensitivity Analysis
+# ============================================================
+#
+# Author: Suzan Farhang-Sardroodi
+#
+# This code was developed by Suzan Farhang-Sardroodi for the
+# sensitivity Mendelian randomization analyses of age at natural
+# menopause (ANM) reported in this study.
+#
+# The analysis applies a more stringent cis-eQTL instrument
+# selection criterion while retaining the same MR framework used
+# in the primary analysis.
+#
+# Please cite the associated publication when using or adapting
+# this code.
+#
+# ============================================================
+#!/usr/bin/env python3
+
 import shutil
 import subprocess
 import tempfile
