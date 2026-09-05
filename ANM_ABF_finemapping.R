@@ -49,8 +49,8 @@ dir.create(
 )
 
 
-# ANM quantitative-trait sample size
-ANM_SAMPLE_SIZE <- 243506
+# ANM GWAS discovery sample size
+ANM_SAMPLE_SIZE <- 173424
 
 
 # Credible-set probability
@@ -574,7 +574,7 @@ read_fuma_loci <- function(path) {
 build_anm_inputs <- function(
   gwas,
   loci,
-  sample_size = 243506,
+  sample_size = 173424,
   min_snps = 10L
 ) {
 
