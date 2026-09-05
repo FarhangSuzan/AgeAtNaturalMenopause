@@ -1,3 +1,17 @@
+# ============================================================
+# Age at Natural Menopause (ANM) Fine-Mapping Analysis
+# ============================================================
+#
+# Author: Suzan Farhang-Sardroodi
+#
+# This code was developed by Suzan Farhang-Sardroodi for the
+# fine-mapping analyses of age at natural menopause (ANM)
+# reported in this study.
+#
+# Please cite the associated publication when using or adapting
+# this code.
+#
+# ============================================================
 suppressPackageStartupMessages({
   library(data.table)
   library(coloc)
