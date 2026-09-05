@@ -1,5 +1,21 @@
 #!/usr/bin/env python3
 
+# ============================================================
+# Age at Natural Menopause (ANM) Mendelian Randomization
+# ============================================================
+#
+# Author: Suzan Farhang-Sardroodi
+#
+# This code was developed by Suzan Farhang-Sardroodi for the
+# Mendelian randomization analyses of age at natural menopause
+# (ANM) reported in this study.
+#
+# Please cite the associated publication when using or adapting
+# this code.
+#
+# ============================================================
+#!/usr/bin/env python3
+
 import shutil
 import subprocess
 import tempfile
