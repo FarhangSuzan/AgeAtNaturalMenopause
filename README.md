@@ -22,21 +22,15 @@ fine-mapping using the **coloc** R package.
 
 Main features include:
 
-- Reading ANM GWAS summary statistics
+- Reading and quality-controlling ANM GWAS summary statistics
 - Using FUMA-defined genomic risk-locus boundaries for locus-specific fine-mapping
-- Running Bayesian ABF fine-mapping for each locus
-- Computing posterior inclusion probabilities (PIP) for individual SNPs
+- Performing ABF fine-mapping separately within each genomic risk locus
+- Computing posterior inclusion probabilities (PIPs) for individual SNPs
 - Constructing 90% credible sets
-- Identifying the highest-PIP representative variant within each fine-mapped locus
-- Generating locus-level summaries
+- Identifying the highest-PIP representative variant within each successfully fine-mapped locus
+- Generating locus-level fine-mapping summaries
 - Exporting publication-ready CSV and Excel output files
 
-### Fine-Mapping Software
-
-- R (≥ 4.2)
-- data.table
-- coloc
-- openxlsx
 ## FUSION Transcriptome-Wide Association Analysis
 
 Transcriptome-wide association analysis (TWAS) was performed using the
