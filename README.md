@@ -105,9 +105,9 @@ TWAS P-value (`TWAS.P`).
 Transcriptome-wide significance was determined separately within each tissue
 using a Bonferroni correction:
 
-\[
-P_{\mathrm{TWAS}} < \frac{0.05}{N_{\mathrm{models}}},
-\]
+$$
+P_{\mathrm{TWAS}} < \frac{0.05}{N_{\mathrm{models}}}
+$$
 
 where \(N_{\mathrm{models}}\) is the total number of gene-expression prediction
 models tested in the corresponding tissue.
@@ -185,7 +185,6 @@ FUSION software, documentation, GTEx v8 prediction models, and reference
 resources are available at:
 
 - http://gusevlab.org/projects/fusion/
-- https://github.com/gusevlab/fusion_twas
 
 For the FUSION TWAS methodology, see:
 
