@@ -102,17 +102,17 @@ TWAS P-value (`TWAS.P`).
 
 ### Transcriptome-Wide Significance
 
-Transcriptome-wide significance was determined separately within each tissue
-using a Bonferroni correction:
+For each tissue, transcriptome-wide significance was determined using a
+tissue-specific Bonferroni correction:
 
 $$
 P_{\mathrm{TWAS}} < \frac{0.05}{N_{\mathrm{models}}}
 $$
 
-where \(N_{\mathrm{models}}\) is the total number of gene-expression prediction
-models tested in the corresponding tissue.
+where $N_{\mathrm{models}}$ is the total number of gene-expression prediction
+models tested in that tissue.
 
-Only TWAS associations passing the tissue-specific Bonferroni threshold were
+Only associations passing the tissue-specific Bonferroni threshold were
 carried forward to joint/conditional analysis.
 
 ### Joint/Conditional TWAS
@@ -120,9 +120,9 @@ carried forward to joint/conditional analysis.
 Significant marginal TWAS associations were subsequently evaluated using
 FUSION joint/conditional analysis with `FUSION.post_process.R`.
 
-This analysis accounts for correlation among genetically predicted expression
-signals within genomic loci and evaluates which TWAS associations remain
-supported after conditioning on correlated prediction models.
+This analysis accounts for correlations among genetically predicted expression
+signals within genomic loci and evaluates TWAS associations after accounting
+for correlated prediction models.
 
 A representative command is:
 
@@ -161,32 +161,25 @@ FUSION produces two principal joint/conditional result files:
 Thus, the analysis distinguishes between:
 
 1. **Marginal TWAS associations** — gene-expression prediction models
-   individually associated with ANM before conditioning; and
+   individually associated with ANM before joint/conditional analysis.
 
 2. **Joint/conditional TWAS associations** — results obtained after accounting
    for correlations among genetically predicted expression signals within
-   loci.
+   genomic loci.
 
-Joint/conditional results were used to refine the set of ANM-associated
-gene-expression signals while recognizing that TWAS association alone does
-not establish a causal effect of gene expression on ANM.
+Joint/conditional analysis was used to refine the set of ANM-associated
+gene-expression signals. TWAS associations represent associations with
+genetically predicted gene expression and do not, by themselves, establish a
+causal effect of gene expression on ANM.
 
-### FUSION Software and Resources
-
-The TWAS analysis used:
-
-- R
-- FUSION `FUSION.assoc_test.R`
-- FUSION `FUSION.post_process.R`
-- GTEx v8 EUR precomputed gene-expression prediction models
-- 1000 Genomes Project European LD reference data
+### FUSION Resource
 
 FUSION software, documentation, GTEx v8 prediction models, and reference
 resources are available at:
 
 - http://gusevlab.org/projects/fusion/
 
-For the FUSION TWAS methodology, see:
+For the FUSION TWAS methodology:
 
 Gusev A, et al. *Integrative approaches for large-scale transcriptome-wide
 association studies.* Nature Genetics. 2016.
