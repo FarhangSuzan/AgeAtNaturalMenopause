@@ -37,6 +37,160 @@ Main features include:
 - data.table
 - coloc
 - openxlsx
+## FUSION Transcriptome-Wide Association Analysis
+
+Transcriptome-wide association analysis (TWAS) was performed using the
+**FUSION** framework to identify genes whose genetically predicted expression
+was associated with age at natural menopause (ANM).
+
+Analyses were performed separately in three GTEx v8 tissues selected for their
+relevance to reproductive and neuroendocrine biology:
+
+- Ovary
+- Pituitary
+- Brain - Hypothalamus
+
+Precomputed **GTEx v8 European-ancestry (EUR) gene-expression prediction
+models** distributed through FUSION were used. Linkage disequilibrium (LD) was
+estimated using the **1000 Genomes Project European reference panel** supplied
+for FUSION analyses.
+
+### Input Data
+
+The marginal TWAS analysis requires:
+
+- `ANM_FUSION.sumstats`  
+  ANM GWAS summary statistics formatted for FUSION with the required columns
+  `SNP`, `A1`, `A2`, and `Z`, where the GWAS Z-score was calculated as
+  `beta / SE`.
+
+- GTEx v8 EUR FUSION prediction models  
+  Precomputed gene-expression prediction weights for ovary, pituitary, and
+  brain hypothalamus.
+
+- `LDREF/1000G.EUR.*`  
+  Chromosome-specific 1000 Genomes European LD reference files used by FUSION.
+
+The ANM GWAS used for this analysis was in **GRCh37/hg19** coordinates.
+Precomputed GTEx v8 EUR prediction models distributed through FUSION were used
+directly; no user-performed GTEx GRCh38-to-GRCh37 liftOver step was included in
+the TWAS pipeline.
+
+### Marginal TWAS
+
+Marginal TWAS was performed using `FUSION.assoc_test.R`.
+
+A representative command for ovary is:
+
+```bash
+Rscript FUSION/FUSION.assoc_test.R \
+  --sumstats ANM_FUSION.sumstats \
+  --weights WEIGHTS/Ovary/GTExv8.EUR.Ovary.pos \
+  --weights_dir WEIGHTS/Ovary/ \
+  --ref_ld_chr LDREF/1000G.EUR. \
+  --chr 1 \
+  --out RESULTS/Ovary/ANM_Ovary_chr1.dat
+```
+
+The analysis was repeated for chromosomes **1–22** and separately for
+**ovary, pituitary, and brain hypothalamus**, using the corresponding GTEx v8
+EUR prediction-model files.
+
+For each tested gene-expression prediction model, FUSION reports a marginal
+TWAS association statistic, including the TWAS Z-score (`TWAS.Z`) and
+TWAS P-value (`TWAS.P`).
+
+### Transcriptome-Wide Significance
+
+Transcriptome-wide significance was determined separately within each tissue
+using a Bonferroni correction:
+
+\[
+P_{\mathrm{TWAS}} < \frac{0.05}{N_{\mathrm{models}}},
+\]
+
+where \(N_{\mathrm{models}}\) is the total number of gene-expression prediction
+models tested in the corresponding tissue.
+
+Only TWAS associations passing the tissue-specific Bonferroni threshold were
+carried forward to joint/conditional analysis.
+
+### Joint/Conditional TWAS
+
+Significant marginal TWAS associations were subsequently evaluated using
+FUSION joint/conditional analysis with `FUSION.post_process.R`.
+
+This analysis accounts for correlation among genetically predicted expression
+signals within genomic loci and evaluates which TWAS associations remain
+supported after conditioning on correlated prediction models.
+
+A representative command is:
+
+```bash
+Rscript FUSION/FUSION.post_process.R \
+  --sumstats ANM_FUSION.sumstats \
+  --input RESULTS/JOINT/Ovary/ANM_Ovary_chr17_significant.dat \
+  --out RESULTS/JOINT/Ovary/ANM_Ovary_chr17_joint \
+  --ref_ld_chr LDREF/1000G.EUR. \
+  --chr 17 \
+  --plot \
+  --plot_legend joint \
+  --locus_win 500000
+```
+
+The procedure was repeated for chromosomes containing transcriptome-wide
+significant TWAS associations and separately for each of the three tissues.
+
+A **500-kb flanking locus buffer** was used for joint/conditional
+post-processing and regional visualization.
+
+### Joint/Conditional TWAS Outputs
+
+FUSION produces two principal joint/conditional result files:
+
+- `*.joint_included.dat`  
+  TWAS predictors retained in the joint model. These files contain the marginal
+  TWAS statistics together with the corresponding joint estimates and
+  P-values.
+
+- `*.joint_dropped.dat`  
+  Marginally significant TWAS predictors that were not retained in the joint
+  model after accounting for correlated predicted-expression signals. These
+  files contain their corresponding conditional statistics.
+
+Thus, the analysis distinguishes between:
+
+1. **Marginal TWAS associations** — gene-expression prediction models
+   individually associated with ANM before conditioning; and
+
+2. **Joint/conditional TWAS associations** — results obtained after accounting
+   for correlations among genetically predicted expression signals within
+   loci.
+
+Joint/conditional results were used to refine the set of ANM-associated
+gene-expression signals while recognizing that TWAS association alone does
+not establish a causal effect of gene expression on ANM.
+
+### FUSION Software and Resources
+
+The TWAS analysis used:
+
+- R
+- FUSION `FUSION.assoc_test.R`
+- FUSION `FUSION.post_process.R`
+- GTEx v8 EUR precomputed gene-expression prediction models
+- 1000 Genomes Project European LD reference data
+
+FUSION software, documentation, GTEx v8 prediction models, and reference
+resources are available at:
+
+- http://gusevlab.org/projects/fusion/
+- https://github.com/gusevlab/fusion_twas
+
+For the FUSION TWAS methodology, see:
+
+Gusev A, et al. *Integrative approaches for large-scale transcriptome-wide
+association studies.* Nature Genetics. 2016.
 
 
 ## GTEx v8 eQTL-Based Mendelian Randomization
