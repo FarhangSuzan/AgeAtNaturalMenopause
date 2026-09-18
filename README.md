@@ -374,7 +374,6 @@ This script prepares regional GTEx v8 cis-eQTL data for colocalization analysis.
 | **Gene-specific filtering** | Retains cis-eQTL rows corresponding to the target Ensembl gene |
 | **Output preparation** | Saves one local gene-by-tissue regional cis-eQTL file for downstream colocalization |
 
-
 #### `05_MR_prioritized_gene_colocalization.R`
 
 This script performs Bayesian colocalization between ANM GWAS associations and
@@ -384,7 +383,7 @@ GTEx v8 gene-expression associations using `coloc.abf`.
 |---|---|
 | **GTEx input** | Reads the prepared regional GTEx v8 cis-eQTL files |
 | **ANM extraction** | Extracts ANM GWAS variants from the corresponding genomic region |
-| **Variant matching** | Matches GTEx and ANM variants by genomic position and rsID |
+| **Variant matching** | Matches GTEx and ANM variants by genomic position and exact rsID |
 | **Allele harmonization** | Harmonizes alleles between GTEx and ANM and removes allele mismatches |
 | **Variant QC** | Removes variants with invalid minor allele frequency (MAF) values |
 | **Phenotype scaling** | Estimates phenotype standard deviations required for the `coloc` analysis |
@@ -394,7 +393,6 @@ GTEx v8 gene-expression associations using `coloc.abf`.
 | **Shared-variant prioritization** | Identifies the top candidate shared variant based on `SNP.PP.H4` |
 | **Prior sensitivity** | Repeats colocalization across alternative `p12` prior probabilities |
 | **Output & reporting** | Exports SNP-level and regional colocalization summaries |
-
 
 ### Colocalization Parameters
 
@@ -423,7 +421,6 @@ posterior probability assigned to an individual candidate shared variant
 conditional on H4, whereas regional `PP.H4` quantifies support for the
 shared-causal-variant hypothesis itself.
 
-
 ### Colocalization Results
 
 Among **358 robust MR-supported genes**, **352** had at least one gene–tissue
@@ -435,17 +432,8 @@ Of these:
 
 - **344 genes** had usable GTEx v8 regional cis-eQTL data and completed colocalization;
 - **8 genes** lacked target-gene GTEx cis-eQTL rows within the predefined
-  best-tissue ±500 kb window;
-- **44 genes** showed strong colocalization support with `PP.H4 ≥ 0.80`;
-- **13 genes** showed moderate H4 support with `0.50 ≤ PP.H4 < 0.80`; and
-- **278 genes** were H3-favored (`PP.H3 > PP.H4`), indicating greater posterior
-  support for distinct rather than shared causal signals within the tested region.
-
-Strong colocalization was incorporated as an additional gene-prioritization
-evidence layer. The original `Evidence_count` was retained, and
-`Evidence_count_with_coloc` adds one point for genes with
-`Coloc_strong_H4 = TRUE`.
-
+  best-tissue ±500 kb window; and
+- **43 genes** showed strong colocalization support with `PP.H4 ≥ 0.80`.
 
 ### Colocalization Software Requirements
 
