@@ -456,15 +456,6 @@ evidence layer. The original `Evidence_count` was retained, and
 - seqminer
 
 
-## Data Sources
-
-- **ANM GWAS:** GWAS Catalog study accession `GCST90292553`
-- **GTEx v8:** GTEx Portal
-- **GTEx v8 regional cis-eQTL summary statistics for colocalization:** eQTL Catalogue imported GTEx v8 tabix resources
-- **1000 Genomes Project Phase 3 European reference panel:** International Genome Sample Resource
-- **MDD and anxiety GWAS:** Psychiatric Genomics Consortium
-
-
 ## Citation
 
 If you use this code, please cite the associated publication when available.
