@@ -193,8 +193,9 @@ Gene-expression Mendelian randomization (MR) was performed to test whether
 genetically predicted expression of ANM-prioritized genes was associated with
 age at natural menopause.
 
-Analyses were restricted to **1,294 genes** prioritized from the ANM GWAS using
-FUMA.
+Analyses were restricted to ANM-prioritized genes identified through FUMA,
+comprising **1,294 FUMA gene records corresponding to 1,289 unique gene
+symbols**.
 
 Conditionally independent cis-eQTLs were obtained from GTEx v8 for 15 tissues:
 
@@ -275,14 +276,16 @@ nominal SNP–gene expression association to reach genome-wide significance.
 This stricter analysis assessed whether the MR findings remained significant
 when restricted to more strongly supported cis-eQTL instruments.
 
-Genes significant at `MR_FDR < 0.05` in both the primary and sensitivity
-analyses were retained as the **robust MR-supported gene set**.
+Genes with at least one gene–tissue association significant at
+`MR_FDR < 0.05` in both the primary and sensitivity analyses were retained as
+the **robust MR-supported gene set**.
 
 
 ### Main Results
 
-The final robust MR analysis identified **358 genes** that were significant at
-`MR_FDR < 0.05` in both the primary and sensitivity analyses.
+The final robust MR-supported set comprised **358 genes** with at least one
+gene–tissue association significant at `MR_FDR < 0.05` in both the primary
+and sensitivity analyses.
 
 These 358 genes were retained as the final robust MR-supported gene set for
 downstream gene prioritization and colocalization.
