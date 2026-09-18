@@ -5,6 +5,16 @@ genetic architecture of **age at natural menopause (ANM)** and its relationship
 with **major depressive disorder (MDD)**, **anxiety**, **brain cell types**,
 **gene expression**, and **mitochondrial biology**.
 
+<p align="center">
+  <img src="figures/ANM_graphical_abstract.jpg"
+       alt="Graphical abstract of the integrative functional genomic analysis of age at natural menopause"
+       width="100%">
+</p>
+
+<p align="center">
+  <b>Graphical overview of the ANM integrative functional genomics study.</b>
+</p>
+
 ## Research Overview
 
 The project integrates genome-wide association studies (GWAS), statistical
