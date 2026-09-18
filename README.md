@@ -28,16 +28,15 @@ and neuropsychiatric traits.
 The script `ANM_ABF_finemapping.R` performs Approximate Bayes Factor (ABF)
 fine-mapping using the **coloc** R package.
 
-Main features include:
-
-- Reading and quality-controlling ANM GWAS summary statistics
-- Using FUMA-defined genomic risk-locus boundaries for locus-specific fine-mapping
-- Performing ABF fine-mapping separately within each genomic risk locus
-- Computing posterior inclusion probabilities (PIPs) for individual SNPs
-- Constructing 90% credible sets
-- Identifying the highest-PIP representative variant within each successfully fine-mapped locus
-- Generating locus-level fine-mapping summaries
-- Exporting publication-ready CSV and Excel output files
+| Step | Analysis | Description |
+|:---:|---|---|
+| 🟦 **1** | **GWAS input & QC** | Reads and quality-controls ANM GWAS summary statistics |
+| 🟩 **2** | **Risk-locus definition** | Uses FUMA-defined genomic risk-locus boundaries for locus-specific analysis |
+| 🟨 **3** | **ABF fine-mapping** | Performs ABF fine-mapping separately within each genomic risk locus |
+| 🟧 **4** | **Posterior probabilities** | Computes posterior inclusion probabilities (PIPs) for individual SNPs |
+| 🟥 **5** | **Credible sets** | Constructs 90% credible sets within successfully fine-mapped loci |
+| 🟪 **6** | **Representative variants** | Identifies the highest-PIP representative variant within each successfully fine-mapped locus |
+| 🟫 **7** | **Output & reporting** | Generates locus-level summaries and exports publication-ready CSV and Excel files |
 
 ## FUSION Transcriptome-Wide Association Analysis
 
