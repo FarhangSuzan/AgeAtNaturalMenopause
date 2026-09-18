@@ -6,7 +6,7 @@ with **major depressive disorder (MDD)**, **anxiety**, **brain cell types**,
 **gene expression**, and **mitochondrial biology**.
 
 <p align="center">
-  <img src="figures/ANM_graphical_abstract.jpg"
+  <img src="figures/abstract.jpg"
        alt="Graphical abstract of the integrative functional genomic analysis of age at natural menopause"
        width="100%">
 </p>
