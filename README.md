@@ -23,7 +23,7 @@ and neuropsychiatric traits.
 
 ## Current Analysis Pipelines
 
-### ABF Fine-Mapping of Age at Natural Menopause
+### 🟣 ABF Fine-Mapping of Age at Natural Menopause
 
 The script `ANM_ABF_finemapping.R` performs Approximate Bayes Factor (ABF)
 fine-mapping using the **coloc** R package.
