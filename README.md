@@ -38,7 +38,7 @@ fine-mapping using the **coloc** R package.
 | **Representative variants** | Identifies the highest-PIP representative variant within each successfully fine-mapped locus |
 | **Output & reporting** | Generates locus-level summaries and exports publication-ready CSV and Excel files |
 
-## FUSION Transcriptome-Wide Association Analysis
+### 🟣 FUSION Transcriptome-Wide Association Analysis
 
 Transcriptome-wide association analysis (TWAS) was performed using the
 **FUSION** framework to identify genes whose genetically predicted expression
@@ -186,7 +186,7 @@ Gusev A, et al. *Integrative approaches for large-scale transcriptome-wide
 association studies.* Nature Genetics. 2016.
 
 
-## GTEx v8 eQTL-Based Mendelian Randomization
+## 🟣 GTEx v8 eQTL-Based Mendelian Randomization
 
 Gene-expression Mendelian randomization (MR) was performed to test whether
 genetically predicted expression of ANM-prioritized genes was associated with
@@ -334,7 +334,7 @@ analysis to identify MR-supported genes robust to stricter instrument selection.
 - 1000 Genomes Project Phase 3 European-ancestry reference data
 
 
-## GTEx v8 Colocalization of MR-Prioritized Genes
+## 🟣 GTEx v8 Colocalization of MR-Prioritized Genes
 
 Bayesian colocalization was performed to evaluate whether ANM GWAS associations
 and GTEx v8 cis-eQTL associations for robust MR-supported genes were consistent
