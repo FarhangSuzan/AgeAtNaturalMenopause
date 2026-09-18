@@ -294,19 +294,20 @@ downstream gene prioritization and colocalization.
 
 #### `ANM_GTEx_v8_MR_FINAL_LDaware.py`
 
-This script performs the primary GTEx v8 gene-expression MR analysis. It:
+This script performs the primary GTEx v8 gene-expression MR analysis.
 
-1. reads harmonized GTEx cis-eQTL instruments;
-2. adds gene symbols from the FUMA-prioritized gene table;
-3. matches instruments to chromosome-specific 1000 Genomes EUR PLINK reference files;
-4. verifies allele correspondence with the LD reference;
-5. performs Wald-ratio MR for single-instrument gene–tissue pairs;
-6. performs LD-aware generalized IVW MR for multi-instrument gene–tissue pairs;
-7. uses a single-instrument Wald-ratio fallback when LD-based estimation cannot
-   be performed using at least two usable instruments;
-8. calculates MR beta, standard error, Z-score, P-value, and 95% confidence interval;
-9. applies Benjamini–Hochberg FDR correction; and
-10. saves the complete MR results and QC tables.
+| Step | Analysis | Description |
+|:---:|---|---|
+| 🟦 **1** | **Instrument input** | Reads harmonized GTEx v8 cis-eQTL–ANM GWAS instruments |
+| 🟩 **2** | **Gene annotation** | Adds gene symbols from the FUMA-prioritized ANM gene table |
+| 🟨 **3** | **LD-reference mapping** | Matches instruments to chromosome-specific 1000 Genomes EUR PLINK reference files |
+| 🟧 **4** | **Allele verification** | Verifies allele correspondence between MR instruments and the LD reference |
+| 🟥 **5** | **Single-instrument MR** | Performs Wald-ratio MR for gene–tissue pairs with one usable instrument |
+| 🟪 **6** | **Multi-instrument MR** | Performs LD-aware generalized IVW MR for gene–tissue pairs with two or more usable instruments |
+| 🟫 **7** | **Wald fallback** | Uses a single-instrument Wald ratio when LD-based estimation cannot be performed with at least two usable instruments |
+| 🟦 **8** | **MR statistics** | Calculates MR beta, standard error, Z-score, P-value, and 95% confidence interval |
+| 🟩 **9** | **Multiple-testing correction** | Applies Benjamini–Hochberg false discovery rate (FDR) correction across gene–tissue MR tests |
+| 🟨 **10** | **Output & QC** | Saves the complete MR results and quality-control tables |
 
 
 ### Sensitivity MR Script
@@ -361,34 +362,38 @@ The colocalization workflow consists of two scripts:
 
 #### `04_prepare_GTEx_coloc_inputs.R`
 
-This script:
+This script prepares regional GTEx v8 cis-eQTL data for colocalization analysis.
 
-1. reads the robust MR-supported gene manifest;
-2. selects the MR-best shared tissue for each eligible gene;
-3. locates the corresponding ANM representative fine-mapped variant in GRCh38;
-4. defines a symmetric ±500 kb region;
-5. queries the corresponding GTEx v8 regional cis-eQTL summary statistics from
-   the eQTL Catalogue tabix resources;
-6. retains rows corresponding to the target Ensembl gene; and
-7. saves one local gene-by-tissue regional file for downstream colocalization.
+| Step | Analysis | Description |
+|:---:|---|---|
+| 🟦 **1** | **Gene input** | Reads the robust MR-supported gene manifest |
+| 🟩 **2** | **Tissue selection** | Selects the MR-best shared tissue for each eligible gene |
+| 🟨 **3** | **Variant localization** | Locates the corresponding ANM representative fine-mapped variant in GRCh38 |
+| 🟧 **4** | **Regional definition** | Defines a symmetric ±500 kb region around the representative variant |
+| 🟥 **5** | **GTEx eQTL retrieval** | Queries regional GTEx v8 cis-eQTL summary statistics from the eQTL Catalogue tabix resources |
+| 🟪 **6** | **Gene-specific filtering** | Retains cis-eQTL rows corresponding to the target Ensembl gene |
+| 🟫 **7** | **Output preparation** | Saves one local gene-by-tissue regional cis-eQTL file for downstream colocalization |
 
 
 #### `05_MR_prioritized_gene_colocalization.R`
 
-This script:
+This script performs Bayesian colocalization between ANM GWAS associations and
+GTEx v8 gene-expression associations using `coloc.abf`.
 
-1. reads the prepared regional GTEx v8 cis-eQTL files;
-2. extracts the corresponding ANM GWAS variants;
-3. matches variants by genomic position and rsID;
-4. harmonizes alleles between GTEx and ANM;
-5. removes allele mismatches and invalid MAF values;
-6. estimates phenotype standard deviations required by `coloc`;
-7. runs `coloc.abf`;
-8. calculates regional posterior probabilities PP.H0–PP.H4;
-9. calculates SNP-level `SNP.PP.H4` values;
-10. identifies the top candidate shared variant based on `SNP.PP.H4`;
-11. performs sensitivity analyses across alternative `p12` priors; and
-12. exports SNP-level and regional colocalization summaries.
+| Step | Analysis | Description |
+|:---:|---|---|
+| 🟦 **1** | **GTEx input** | Reads the prepared regional GTEx v8 cis-eQTL files |
+| 🟩 **2** | **ANM extraction** | Extracts ANM GWAS variants from the corresponding genomic region |
+| 🟨 **3** | **Variant matching** | Matches GTEx and ANM variants by genomic position and rsID |
+| 🟧 **4** | **Allele harmonization** | Harmonizes alleles between GTEx and ANM and removes allele mismatches |
+| 🟥 **5** | **Variant QC** | Removes variants with invalid minor allele frequency (MAF) values |
+| 🟪 **6** | **Phenotype scaling** | Estimates phenotype standard deviations required for the `coloc` analysis |
+| 🟫 **7** | **Bayesian colocalization** | Runs `coloc.abf` for each eligible gene–tissue region |
+| 🟦 **8** | **Regional probabilities** | Calculates regional posterior probabilities PP.H0–PP.H4 |
+| 🟩 **9** | **SNP-level probabilities** | Calculates SNP-level `SNP.PP.H4` values within each analyzed region |
+| 🟨 **10** | **Shared-variant prioritization** | Identifies the top candidate shared variant based on `SNP.PP.H4` |
+| 🟧 **11** | **Prior sensitivity** | Repeats colocalization across alternative `p12` prior probabilities |
+| 🟥 **12** | **Output & reporting** | Exports SNP-level and regional colocalization summaries |
 
 
 ### Colocalization Parameters
