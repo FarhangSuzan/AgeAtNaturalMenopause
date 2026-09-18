@@ -1,9 +1,7 @@
-# ANM_MDD_Anxiety_MitoBrain
+# Integrative Functional Genomics of Age at Natural Menopause
 
-This repository contains analysis pipelines developed for investigating the
-genetic architecture of **age at natural menopause (ANM)** and its relationship
-with **major depressive disorder (MDD)**, **anxiety**, **brain cell types**,
-**gene expression**, and **mitochondrial biology**.
+This repository contains the computational pipelines developed for the
+integrative functional genomic analysis of **age at natural menopause (ANM)**.
 
 <p align="center">
   <img src="Abstract.jpg"
