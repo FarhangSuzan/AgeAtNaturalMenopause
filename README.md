@@ -1,43 +1,3 @@
-# Integrative Functional Genomics of Age at Natural Menopause
-
-This repository contains the computational pipelines developed for the
-integrative functional genomic analysis of **age at natural menopause (ANM)**.
-
-<p align="center">
-  <img src="Abstract.jpg"
-       alt="Graphical overview of the integrative functional genomic analysis of age at natural menopause"
-       width="100%">
-</p>
-
-<p align="center">
-  <b>Graphical overview of the ANM integrative functional genomics study.</b>
-</p>
-
-## Research Overview
-
-The project integrates genome-wide association studies (GWAS), statistical
-genetics, fine-mapping, functional genomics, Mendelian randomization, Bayesian
-colocalization, and single-cell analyses to identify and prioritize genetic
-variants, genes, and regulatory mechanisms associated with reproductive aging
-and neuropsychiatric traits.
-
-## Current Analysis Pipelines
-
-### 🟣 ABF Fine-Mapping of Age at Natural Menopause
-
-The script `ANM_ABF_finemapping.R` performs Approximate Bayes Factor (ABF)
-fine-mapping using the **coloc** R package.
-
-| Analysis | Description |
-|---|---|
-| **GWAS input & QC** | Reads and quality-controls ANM GWAS summary statistics |
-| **Risk-locus definition** | Uses FUMA-defined genomic risk-locus boundaries for locus-specific analysis |
-| **ABF fine-mapping** | Performs ABF fine-mapping separately within each genomic risk locus |
-| **Posterior probabilities** | Computes posterior inclusion probabilities (PIPs) for individual SNPs |
-| **Credible sets** | Constructs 90% credible sets within successfully fine-mapped loci |
-| **Representative variants** | Identifies the highest-PIP representative variant within each successfully fine-mapped locus |
-| **Output & reporting** | Generates locus-level summaries and exports publication-ready CSV and Excel files |
-
 ### 🟣 FUSION Transcriptome-Wide Association Analysis
 
 Transcriptome-wide association analysis (TWAS) was performed using the
@@ -72,10 +32,13 @@ The marginal TWAS analysis requires:
 - `LDREF/1000G.EUR.*`  
   Chromosome-specific 1000 Genomes European LD reference files used by FUSION.
 
-The ANM GWAS used for this analysis was in **GRCh37/hg19** coordinates.
-Precomputed GTEx v8 EUR prediction models distributed through FUSION were used
-directly; no user-performed GTEx GRCh38-to-GRCh37 liftOver step was included in
-the TWAS pipeline.
+The ANM GWAS and LD reference used for this analysis were in
+**GRCh37/hg19** coordinates, whereas the GTEx v8 gene positions were in
+**GRCh38/hg38** coordinates.
+
+No gene-position liftOver was required for marginal TWAS. Gene positions
+were subsequently converted from GRCh38 to GRCh37 before joint/conditional
+post-processing to ensure compatibility with the LD reference.
 
 ### Marginal TWAS
 
@@ -97,9 +60,14 @@ The analysis was repeated for chromosomes **1–22** and separately for
 **ovary, pituitary, and brain hypothalamus**, using the corresponding GTEx v8
 EUR prediction-model files.
 
-For each tested gene-expression prediction model, FUSION reports a marginal
-TWAS association statistic, including the TWAS Z-score (`TWAS.Z`) and
-TWAS P-value (`TWAS.P`).
+FUSION matches variants across the GWAS summary statistics, prediction
+models, and LD reference using SNP identifiers and harmonizes their alleles.
+Consequently, conversion of GTEx gene positions was not required to calculate
+the marginal TWAS association statistics.
+
+For each successfully tested gene-expression prediction model, FUSION reports
+a marginal TWAS association statistic, including the TWAS Z-score (`TWAS.Z`)
+and TWAS P-value (`TWAS.P`).
 
 ### Transcriptome-Wide Significance
 
@@ -110,68 +78,116 @@ $$
 P_{\mathrm{TWAS}} < \frac{0.05}{N_{\mathrm{models}}}
 $$
 
-where $N_{\mathrm{models}}$ is the total number of gene-expression prediction
-models tested in that tissue.
+where $N_{\mathrm{models}}$ is the total number of successfully tested
+gene-expression prediction models in that tissue.
 
-Only associations passing the tissue-specific Bonferroni threshold were
-carried forward to joint/conditional analysis.
+Associations passing the tissue-specific Bonferroni threshold were identified
+as transcriptome-wide significant. The corrected joint/conditional analysis
+was performed using the chromosome-wide marginal TWAS results rather than
+restricting its input to Bonferroni-significant associations.
 
 ### Joint/Conditional TWAS
 
-Significant marginal TWAS associations were subsequently evaluated using
-FUSION joint/conditional analysis with `FUSION.post_process.R`.
+Marginal TWAS results were subsequently evaluated using FUSION
+joint/conditional analysis with `FUSION.post_process.R`.
 
 This analysis accounts for correlations among genetically predicted expression
-signals within genomic loci and evaluates TWAS associations after accounting
-for correlated prediction models.
+signals and evaluates TWAS associations after accounting for correlated
+prediction models.
 
-A representative command is:
+Before joint/conditional analysis, GTEx v8 gene positions were converted
+from **GRCh38/hg38 to GRCh37/hg19** using UCSC liftOver to ensure consistency
+with the genomic coordinates of the LD reference.
+
+The converted gene positions were incorporated into copies of the marginal
+TWAS output files. The original gene-expression prediction weights, SNP
+identifiers, alleles, and marginal TWAS association statistics were retained
+without modification.
+
+The corrected chromosome-specific input files were saved as:
+
+- `RERUN_2026/ANM_Ovary_chr{chr}_hg19.dat`
+- `RERUN_2026/ANM_Pituitary_chr{chr}_hg19.dat`
+- `RERUN_2026/ANM_Hypothalamus_chr{chr}_hg19.dat`
+
+Genes whose positions could not be mapped were documented separately.
+Successfully tested genes with unmapped positions were excluded from the
+corrected joint/conditional input, while their original marginal TWAS
+results were retained.
+
+A representative command for the corrected joint/conditional analysis
+of ovary, chromosome 17, is:
 
 ```bash
 Rscript FUSION/FUSION.post_process.R \
+  --input RERUN_2026/ANM_Ovary_chr17_hg19.dat \
   --sumstats ANM_FUSION.sumstats \
-  --input RESULTS/JOINT/Ovary/ANM_Ovary_chr17_significant.dat \
-  --out RESULTS/JOINT/Ovary/ANM_Ovary_chr17_joint \
   --ref_ld_chr LDREF/1000G.EUR. \
   --chr 17 \
-  --plot \
-  --plot_legend joint \
-  --locus_win 500000
+  --out RERUN_2026/ANM_Ovary_chr17_hg19_joint \
+  --report
 ```
 
-The procedure was repeated for chromosomes containing transcriptome-wide
-significant TWAS associations and separately for each of the three tissues.
+The procedure was repeated for chromosomes **1–22** and separately for
+**ovary, pituitary, and brain hypothalamus**, using the corresponding
+genome-build-harmonized marginal TWAS files.
 
-A **500-kb flanking locus buffer** was used for joint/conditional
-post-processing and regional visualization.
+The corrected analysis used FUSION's default joint/conditional parameters,
+including a **100-kb flanking locus buffer**. The `--report` option was used
+to generate locus-level summary reports.
 
 ### Joint/Conditional TWAS Outputs
 
 FUSION produces two principal joint/conditional result files:
 
 - `*.joint_included.dat`  
-  TWAS predictors retained in the joint model. These files contain the marginal
-  TWAS statistics together with the corresponding joint estimates and
-  P-values.
+  TWAS predictors retained in the joint model. These files contain the
+  marginal TWAS statistics together with the corresponding joint estimates,
+  Z-scores, and P-values.
 
 - `*.joint_dropped.dat`  
-  Marginally significant TWAS predictors that were not retained in the joint
-  model after accounting for correlated predicted-expression signals. These
-  files contain their corresponding conditional statistics.
+  TWAS predictors not retained in the joint model after accounting for
+  correlated predicted-expression signals. These files contain their
+  marginal TWAS statistics and corresponding conditional statistics,
+  where calculable.
 
 Thus, the analysis distinguishes between:
 
-1. **Marginal TWAS associations** — gene-expression prediction models
-   individually associated with ANM before joint/conditional analysis.
+1. **Marginal TWAS associations** — associations between individual
+   genetically predicted gene-expression models and ANM before
+   joint/conditional analysis.
 
-2. **Joint/conditional TWAS associations** — results obtained after accounting
-   for correlations among genetically predicted expression signals within
-   genomic loci.
+2. **Joint/conditional TWAS results** — associations evaluated after
+   accounting for correlations among genetically predicted expression
+   signals.
 
 Joint/conditional analysis was used to refine the set of ANM-associated
-gene-expression signals. TWAS associations represent associations with
-genetically predicted gene expression and do not, by themselves, establish a
-causal effect of gene expression on ANM.
+gene-expression signals. Inclusion in the joint model indicates that a
+predictor was selected by FUSION and does not necessarily imply that its
+joint association was statistically significant.
+
+The corrected joint/conditional results were used to update Table S4.
+The existing 361-gene list was retained, and tissue-specific results
+were updated using the corrected joint included/dropped output files.
+
+TWAS associations represent associations with genetically predicted gene
+expression and do not, by themselves, establish a causal effect of gene
+expression on ANM.
+
+### Code Availability and Reproducibility
+
+The FUSION TWAS workflow used the following scripts:
+
+- `FUSION.assoc_test.R` — marginal TWAS analysis.
+- `FUSION.post_process.R` — joint/conditional TWAS analysis.
+
+The analysis-specific workflow additionally includes gene-position
+conversion from GRCh38 to GRCh37, preparation of genome-build-harmonized
+joint/conditional input files, documentation of unmapped genes, and
+generation of the corrected Table S4.
+
+The corresponding analysis-specific scripts and processing steps will be
+provided in this repository to support reproducibility.
 
 ### FUSION Resource
 
