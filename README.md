@@ -1,3 +1,14 @@
+# Age at Natural Menopause: Integrative Functional Genomics
+
+![Graphical Abstract](https://github.com/FarhangSuzan/AgeAtNaturalMenopause/blob/main/Abstract.jpg?raw=true)
+
+## Overview
+
+This project investigates genetic and regulatory mechanisms underlying age
+at natural menopause, with a focus on brain and pituitary biology and
+connections to neuropsychiatric traits.
+
+
 ### 🟣 FUSION Transcriptome-Wide Association Analysis
 
 Transcriptome-wide association analysis (TWAS) was performed using the
