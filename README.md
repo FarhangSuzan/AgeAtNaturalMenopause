@@ -4,9 +4,19 @@
 
 ## Overview
 
-This project investigates genetic and regulatory mechanisms underlying age
-at natural menopause, with a focus on brain and pituitary biology and
-connections to neuropsychiatric traits.
+This project integrates statistical genetics, functional genomics, and
+single-cell regulatory analyses to investigate the genetic architecture and
+biological mechanisms underlying age at natural menopause (ANM).
+
+The analytical framework combines genomic risk-locus characterization,
+Bayesian fine-mapping, multi-layer xQTL annotation, transcriptome-wide
+association analysis (TWAS), Mendelian randomization (MR), colocalization,
+and cell-type-specific regulatory mapping to prioritize candidate variants,
+genes, tissues, and cellular mechanisms associated with reproductive aging.
+
+Particular emphasis is placed on ovarian, brain, and pituitary regulatory
+biology and on the genetic relationships between ANM and the neuropsychiatric
+traits major depressive disorder (MDD) and anxiety (ANX).
 
 ## 🟣 ANM Approximate Bayes Factor Fine-Mapping
 
