@@ -8,6 +8,39 @@ This project investigates genetic and regulatory mechanisms underlying age
 at natural menopause, with a focus on brain and pituitary biology and
 connections to neuropsychiatric traits.
 
+## 🟣 ANM Approximate Bayes Factor Fine-Mapping
+
+Fine-mapping of ANM-associated genomic risk loci was performed using an
+approximate Bayes factor (ABF) approach implemented with `coloc::finemap.abf`.
+
+For each FUMA-defined genomic risk locus, all eligible ANM GWAS variants within
+the locus boundaries were analyzed using GWAS effect estimates, standard errors,
+minor allele frequencies, and the ANM discovery sample size. SNP-level posterior
+inclusion probabilities (PIPs) were calculated under a single-causal-variant
+model using a prior probability of `1 × 10^-4` per SNP.
+
+Variants were ranked by PIP to construct locus-specific 90% credible sets.
+The highest-PIP SNP was identified for each successfully fine-mapped locus, and
+variants with `PIP > 0.03` were additionally retained for downstream
+prioritization.
+
+### Fine-Mapping Script
+
+#### `ANM_ABF_finemapping.R`
+
+This script performs the complete ANM ABF fine-mapping workflow, including:
+
+- extraction of variants within FUMA-defined genomic risk loci;
+- calculation of ABF-based SNP posterior probabilities using
+  `coloc::finemap.abf`;
+- construction of 90% credible sets;
+- identification of the highest-PIP SNP in each locus;
+- prioritization of variants with `PIP > 0.03`; and
+- generation of SNP-level, credible-set, and locus-level output tables.
+
+The analysis assumes a single causal variant per locus and does not require
+an external LD reference matrix.
+
 
 ### 🟣 FUSION Transcriptome-Wide Association Analysis
 
