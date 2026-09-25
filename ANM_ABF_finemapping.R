@@ -1505,7 +1505,7 @@ if (
 
 
 # =========================================================
-# 15. CREATE CLEAN JENNIE-STYLE EXCEL TABLES
+# 15. CREATE CLEAN EXCEL TABLES
 # =========================================================
 
 excel_columns <- c(
