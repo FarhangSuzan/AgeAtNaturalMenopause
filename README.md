@@ -357,17 +357,6 @@ Genes with at least one gene–tissue association significant at
 `MR_FDR < 0.05` in both the primary and sensitivity analyses were retained as
 the **robust MR-supported gene set**.
 
-
-### Main Results
-
-The final robust MR-supported set comprised **358 genes** with at least one
-gene–tissue association significant at `MR_FDR < 0.05` in both the primary
-and sensitivity analyses.
-
-These 358 genes were retained as the final robust MR-supported gene set for
-downstream gene prioritization and colocalization.
-
-
 ### Primary MR Script
 
 #### `ANM_GTEx_v8_MR_FINAL_LDaware.py`
