@@ -125,8 +125,9 @@ and TWAS P-value (`TWAS.P`).
 
 ### Transcriptome-Wide Significance
 
-For each tissue, transcriptome-wide significance was determined using a
-tissue-specific Bonferroni correction:
+For each tissue, transcriptome-wide significance in the marginal TWAS was
+defined using a tissue-specific Bonferroni correction based on the number of
+successfully tested gene-expression prediction models:
 
 $$
 P_{\mathrm{TWAS}} < \frac{0.05}{N_{\mathrm{models}}}
@@ -135,10 +136,14 @@ $$
 where $N_{\mathrm{models}}$ is the total number of successfully tested
 gene-expression prediction models in that tissue.
 
-Associations passing the tissue-specific Bonferroni threshold were identified
-as transcriptome-wide significant. The corrected joint/conditional analysis
-was performed using the chromosome-wide marginal TWAS results rather than
-restricting its input to Bonferroni-significant associations.
+The resulting transcriptome-wide significance thresholds were:
+
+- **Ovary:** $P_{\mathrm{TWAS}} < [threshold]$
+- **Pituitary:** $P_{\mathrm{TWAS}} < [threshold]$
+- **Hypothalamus:** $P_{\mathrm{TWAS}} < [threshold]$
+
+Marginal TWAS associations with $P$ values below the corresponding
+tissue-specific threshold were considered transcriptome-wide significant.
 
 ### Joint/Conditional TWAS
 
