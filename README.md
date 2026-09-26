@@ -83,7 +83,7 @@ The marginal TWAS analysis requires:
   Precomputed gene-expression prediction weights for ovary, pituitary, and
   brain hypothalamus.
 
-- `LDREF/1000G.EUR.*`  
+- `LDREF/1000G.EUR.`  
   Chromosome-specific 1000 Genomes European LD reference files used by FUSION.
 
 The ANM GWAS and LD reference used for this analysis were in
