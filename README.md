@@ -499,20 +499,6 @@ posterior probability assigned to an individual candidate shared variant
 conditional on H4, whereas regional `PP.H4` quantifies support for the
 shared-causal-variant hypothesis itself.
 
-### Colocalization Results
-
-Among **358 robust MR-supported genes**, **352** had at least one gene–tissue
-association significant at `MR_FDR < 0.05` in both the primary and sensitivity
-MR analyses and were therefore eligible for the predefined best-tissue
-colocalization workflow.
-
-Of these:
-
-- **344 genes** had usable GTEx v8 regional cis-eQTL data and completed colocalization;
-- **8 genes** lacked target-gene GTEx cis-eQTL rows within the predefined
-  best-tissue ±500 kb window; and
-- **43 genes** showed strong colocalization support with `PP.H4 ≥ 0.80`.
-
 ### Colocalization Software Requirements
 
 - R
