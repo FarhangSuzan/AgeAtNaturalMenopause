@@ -295,7 +295,7 @@ The primary MR analysis requires:
 - `ANM_GTEx_v8_MR_final_instruments.txt`  
   Harmonized GTEx v8 cis-eQTL–ANM GWAS instrument-level data.
 
-- `ANM_gene_prioritization_FINAL_INTEGRATED_CLEAN.xlsx`  
+- `ANM_gene_prioritization_FINAL.xlsx`  
   FUMA-prioritized ANM genes and corresponding gene symbols.
 
 - `ANM_1000G_EUR_MR_PLINK/`  
