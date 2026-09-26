@@ -271,7 +271,7 @@ genetically predicted expression of ANM-prioritized genes was associated with
 age at natural menopause.
 
 Analyses were restricted to ANM-prioritized genes identified through FUMA,
-comprising **1,294 FUMA gene records corresponding to 1,289 unique gene
+comprising **1,294 FUMA gene records corresponding to 1,288 unique gene
 symbols**.
 
 Conditionally independent cis-eQTLs were obtained from GTEx v8 for 15 tissues:
