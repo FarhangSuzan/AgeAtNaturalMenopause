@@ -488,15 +488,6 @@ posterior probability assigned to an individual candidate shared variant
 conditional on H4, whereas regional `PP.H4` quantifies support for the
 shared-causal-variant hypothesis itself.
 
-### Colocalization Software Requirements
-
-- R
-- data.table
-- openxlsx
-- coloc
-- seqminer
-
-
 ## Citation
 
 If you use this code, please cite the associated publication when available.
