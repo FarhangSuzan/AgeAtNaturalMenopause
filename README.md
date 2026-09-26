@@ -138,9 +138,12 @@ gene-expression prediction models in that tissue.
 
 The resulting transcriptome-wide significance thresholds were:
 
-- **Ovary:** $P_{\mathrm{TWAS}} < [threshold]$
-- **Pituitary:** $P_{\mathrm{TWAS}} < [threshold]$
-- **Hypothalamus:** $P_{\mathrm{TWAS}} < [threshold]$
+- **Ovary:** $N_{\mathrm{models}} = 3,159$;
+  $P_{\mathrm{TWAS}} < 1.58 \times 10^{-5}$
+- **Pituitary:** $N_{\mathrm{models}} = 6,177$;
+  $P_{\mathrm{TWAS}} < 8.09 \times 10^{-6}$
+- **Hypothalamus:** $N_{\mathrm{models}} = 3,543$;
+  $P_{\mathrm{TWAS}} < 1.41 \times 10^{-5}$
 
 Marginal TWAS associations with $P$ values below the corresponding
 tissue-specific threshold were considered transcriptome-wide significant.
