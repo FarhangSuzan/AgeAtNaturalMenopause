@@ -346,7 +346,7 @@ gene–tissue MR tests, with `MR_FDR < 0.05` considered statistically significan
 A sensitivity MR analysis was performed using the same instrument-quality
 criteria as the primary analysis, with the additional requirement:
 
-- GTEx nominal cis-eQTL $P < 5 × 10^-8$
+- GTEx nominal cis-eQTL $P < 5 \times 10^{-8}$
 
 Thus, the sensitivity analysis retained the primary conditionally independent
 cis-eQTL, F-statistic, and MAF criteria while additionally requiring the
