@@ -384,7 +384,7 @@ This script performs the primary GTEx v8 gene-expression MR analysis.
 
 This script repeats the MR analysis while retaining the primary
 instrument-quality criteria and additionally restricting instruments to GTEx
-cis-eQTLs with `pval_nominal < 5 × 10^-8`.
+cis-eQTLs with `pval_nominal` $< 5 \times 10^{-8}$
 
 The resulting significant genes are compared with those from the primary MR
 analysis to identify MR-supported genes robust to stricter instrument selection.
