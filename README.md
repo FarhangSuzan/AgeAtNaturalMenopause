@@ -371,7 +371,6 @@ This script performs the primary GTEx v8 gene-expression MR analysis.
 | **Allele verification** | Verifies allele correspondence between MR instruments and the LD reference |
 | **Single-instrument MR** | Performs Wald-ratio MR for gene–tissue pairs with one usable instrument |
 | **Multi-instrument MR** | Performs LD-aware generalized IVW MR for gene–tissue pairs with two or more usable instruments |
-| **Wald fallback** | Uses a single-instrument Wald ratio when LD-based estimation cannot be performed with at least two usable instruments |
 | **MR statistics** | Calculates MR beta, standard error, Z-score, P-value, and 95% confidence interval |
 | **Multiple-testing correction** | Applies Benjamini–Hochberg false discovery rate (FDR) correction across gene–tissue MR tests |
 | **Output & QC** | Saves the complete MR results and quality-control tables |
