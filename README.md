@@ -430,10 +430,24 @@ The colocalization workflow consists of two scripts:
 
 This script prepares regional GTEx v8 cis-eQTL data for colocalization analysis.
 
+The input gene manifest contains the tissue selected for colocalization for each eligible gene. 
+Among gene–tissue pairs supported by both the primary and sensitivity MR analyses 
+(FDR < 0.05), the tissue was selected using the sensitivity-analysis statistics in the 
+following order:
+
+\[
+\boxed{
+\max |Z_{\mathrm{sensitivity}}|
+\;\rightarrow\;
+\max |\beta_{\mathrm{sensitivity}}|
+\;\rightarrow\;
+\min FDR_{\mathrm{sensitivity}}
+}
+\]
+
 | Analysis | Description |
 |---|---|
-| **Gene input** | Reads the robust MR-supported gene manifest |
-| **Tissue selection** | Selects the MR-best shared tissue for each eligible gene |
+| **Gene input** | Reads the robust MR-supported gene manifest and the tissue selected for colocalization |
 | **Variant localization** | Locates the corresponding ANM representative fine-mapped variant in GRCh38 |
 | **Regional definition** | Defines a symmetric ±500 kb region around the representative variant |
 | **GTEx eQTL retrieval** | Queries regional GTEx v8 cis-eQTL summary statistics from the eQTL Catalogue tabix resources |
