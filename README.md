@@ -318,7 +318,9 @@ instruments satisfying:
 
 Instrument strength was calculated as:
 
-`F = (beta_eQTL / SE_eQTL)^2`
+$$
+F = \left(\frac{\beta_{\mathrm{eQTL}}}{SE_{\mathrm{eQTL}}}\right)^2
+$$
 
 For gene–tissue pairs represented by one usable genetic instrument, MR effects
 were estimated using the **Wald ratio**.
@@ -430,7 +432,7 @@ The colocalization workflow consists of two scripts:
 
 This script prepares regional GTEx v8 cis-eQTL data for colocalization analysis.
 
-The input gene manifest contains the tissue selected for colocalization for each eligible gene. Among gene–tissue pairs supported by both the primary and sensitivity MR analyses (FDR < 0.05), the tissue was selected using the sensitivity-analysis statistics in the following order:
+The input file contains the tissue selected for colocalization for each eligible gene. Among gene–tissue pairs supported by both the primary and sensitivity MR analyses (FDR < 0.05), the tissue was selected using the sensitivity-analysis statistics in the following order:
 
 $$
 \boxed{
@@ -444,7 +446,7 @@ $$
 
 | Analysis | Description |
 |---|---|
-| **Gene input** | Reads the robust MR-supported gene manifest and the tissue selected for colocalization |
+| **Gene input** | Reads the robust MR-supported genes and the tissue selected for colocalization |
 | **Variant localization** | Locates the corresponding ANM representative fine-mapped variant in GRCh38 |
 | **Regional definition** | Defines a symmetric ±500 kb region around the representative variant |
 | **GTEx eQTL retrieval** | Queries regional GTEx v8 cis-eQTL summary statistics from the eQTL Catalogue tabix resources |
