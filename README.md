@@ -18,6 +18,130 @@ Particular emphasis is placed on ovarian, brain, and pituitary regulatory
 biology and on the genetic relationships between ANM and the neuropsychiatric
 traits major depressive disorder (MDD) and anxiety (ANX).
 
+
+## 🟣 SNP-Based Heritability and Genetic Correlations (LDSC)
+
+SNP-based heritability and pairwise genetic correlations among
+age at natural menopause (ANM), major depressive disorder (MDD),
+and anxiety disorders (ANX) were estimated using LD score
+regression (LDSC).
+
+Analyses used European-ancestry LD scores and regression weights
+distributed with LDSC.
+
+### Heritability Estimation
+
+Univariate LDSC was used to estimate SNP-based heritability.
+
+For MDD and ANX, heritability estimates were converted from the
+observed scale to the liability scale using the following
+parameters:
+
+| Trait | Sample prevalence | Population prevalence | Reported scale |
+|---|---|---|---|
+| ANM | Not applicable | Not applicable | Observed |
+| MDD | 0.50 | 0.15 | Liability |
+| ANX | 0.50 | 0.20 | Liability |
+
+The assumed sample prevalence of 0.50 reflects the use of
+effective sample sizes for the case-control GWAS datasets.
+
+### LDSC Heritability Commands
+
+The commands below assume that LDSC is installed and that the
+munged GWAS summary statistics and European LD reference files
+are available in the indicated directories.
+
+**ANM**
+
+```bash
+python ldsc.py \
+  --h2 ANM_LDSC_corrected.sumstats.gz \
+  --ref-ld-chr eur_w_ld_chr/eur_w_ld_chr. \
+  --w-ld-chr eur_w_ld_chr/eur_w_ld_chr. \
+  --out ANM_h2
+```
+
+**MDD**
+
+```bash
+python ldsc.py \
+  --h2 MDD_LDSC_corrected.sumstats.gz \
+  --ref-ld-chr eur_w_ld_chr/eur_w_ld_chr. \
+  --w-ld-chr eur_w_ld_chr/eur_w_ld_chr. \
+  --samp-prev 0.5 \
+  --pop-prev 0.15 \
+  --out MDD_h2_liability
+```
+
+**ANX**
+
+```bash
+python ldsc.py \
+  --h2 ANX_LDSC_corrected.sumstats.gz \
+  --ref-ld-chr eur_w_ld_chr/eur_w_ld_chr. \
+  --w-ld-chr eur_w_ld_chr/eur_w_ld_chr. \
+  --samp-prev 0.5 \
+  --pop-prev 0.20 \
+  --out ANX_h2_liability
+```
+
+### SNP-Based Heritability Results
+
+| Trait | SNP heritability | Standard error | Scale |
+|---|---:|---:|---|
+| ANM | 0.1909 | 0.0162 | Observed |
+| MDD | 0.0603 | 0.0019 | Liability |
+| ANX | 0.1022 | 0.0038 | Liability |
+
+### Genetic Correlation Analysis
+
+Bivariate LDSC was used to estimate pairwise genetic
+correlations between ANM, MDD, and ANX.
+
+A representative command for ANM–MDD is:
+
+```bash
+python ldsc.py \
+  --rg ANM_LDSC_corrected.sumstats.gz,MDD_LDSC_corrected.sumstats.gz \
+  --ref-ld-chr eur_w_ld_chr/eur_w_ld_chr. \
+  --w-ld-chr eur_w_ld_chr/eur_w_ld_chr. \
+  --out ANM_MDD_rg
+```
+
+The same procedure was repeated for ANM–ANX and MDD–ANX.
+
+### Genetic Correlation Results
+
+| Trait pair | Genetic correlation | SE | P-value |
+|---|---:|---:|---:|
+| ANM–MDD | 0.0499 | 0.0185 | 0.0071 |
+| ANM–ANX | 0.0443 | 0.0220 | 0.0446 |
+| MDD–ANX | 0.9074 | 0.0098 | < 0.00001 |
+
+ANM showed weak positive genetic correlations with MDD and ANX,
+whereas MDD and ANX exhibited a strong positive genetic
+correlation.
+
+The ANM–MDD correlation remained significant after
+Bonferroni correction for three pairwise comparisons,
+whereas the ANM–ANX correlation was nominally significant.
+
+### Reproducibility Notes
+
+- ANM heritability is reported on the observed scale.
+- MDD and ANX heritability estimates are reported on the
+  liability scale.
+- MDD and ANX GWAS effective sample sizes were used during
+  LDSC summary-statistic preparation.
+- The ANM GWAS used Cox proportional hazards effect estimates;
+  therefore, the direction of genetic correlations involving
+  ANM should be interpreted with respect to the GWAS effect coding.
+- GWAS summary statistics and LD reference data must be
+  obtained from their original sources, subject to their
+  respective access conditions.
+```
+
 ## 🟣 ANM Approximate Bayes Factor Fine-Mapping
 
 Fine-mapping of ANM-associated genomic risk loci was performed using an
