@@ -298,7 +298,7 @@ The ANM–ANX correlation was nominally significant.
 - Input filenames and reference directories in the
   commands above are illustrative relative paths;
   they should be adjusted to the local installation.
-```
+  
 
 ## 🟣 ANM Approximate Bayes Factor Fine-Mapping
 
