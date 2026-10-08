@@ -19,40 +19,158 @@ biology and on the genetic relationships between ANM and the neuropsychiatric
 traits major depressive disorder (MDD) and anxiety (ANX).
 
 
+
 ## 🟣 SNP-Based Heritability and Genetic Correlations (LDSC)
 
 SNP-based heritability and pairwise genetic correlations among
 age at natural menopause (ANM), major depressive disorder (MDD),
-and anxiety disorders (ANX) were estimated using LD score
-regression (LDSC).
+and anxiety disorders (ANX) were estimated using linkage
+disequilibrium score regression (LDSC).
 
 Analyses used European-ancestry LD scores and regression weights
-distributed with LDSC.
+distributed with LDSC (`eur_w_ld_chr`).
+
+### GWAS Summary Statistics Preparation and Munging
+
+GWAS summary statistics were processed using LDSC's
+`munge_sumstats.py` to standardize SNP identifiers, effect alleles,
+association statistics, and sample sizes before heritability
+and genetic correlation estimation.
+
+All three analyses used the corresponding European-ancestry
+GWAS summary statistics.
+
+#### ANM
+
+ANM summary statistics were obtained from the GWAS of
+Ojavee et al. (2023), using the discovery sample of
+173,424 women of European ancestry.
+
+The GWAS effect estimates were derived from a Cox
+proportional hazards model. Positive effect estimates
+correspond to increased menopause hazard (earlier menopause).
+
+The following command was used:
+
+```bash
+python munge_sumstats.py \
+  --sumstats ANM_GWAS_input.txt \
+  --snp rs_id \
+  --a1 effect_allele \
+  --a2 other_allele \
+  --p p_value \
+  --signed-sumstats beta,0 \
+  --N 173424 \
+  --out ANM_LDSC_corrected
+```
+
+The resulting file was:
+
+`ANM_LDSC_corrected.sumstats.gz`
+
+#### MDD
+
+MDD summary statistics were obtained from the 2025
+Psychiatric Genomics Consortium (PGC) European-ancestry
+meta-analysis, excluding 23andMe data.
+
+The combined European-ancestry dataset was used rather
+than the EHR-only subset.
+
+Variant-specific effective sample sizes (`NEFF`) were
+used instead of assigning a single sample size to all SNPs.
+
+```bash
+python munge_sumstats.py \
+  --sumstats MDD_GWAS_2025_clean.txt \
+  --snp ID \
+  --a1 EA \
+  --a2 NEA \
+  --p PVAL \
+  --signed-sumstats BETA,0 \
+  --N-col NEFF \
+  --out MDD_LDSC_corrected
+```
+
+The resulting file was:
+
+`MDD_LDSC_corrected.sumstats.gz`
+
+#### ANX
+
+ANX summary statistics were obtained from the
+European-ancestry GWAS of major anxiety disorders
+reported by Strom et al.
+
+The GWAS provided odds ratios (ORs), which were
+processed using `--signed-sumstats OR,1`.
+
+During preprocessing, the effective sample-size field
+used in the initial LDSC input was identified as
+approximately half the full effective sample size
+required for the analysis.
+
+A corrected effective sample-size column was prepared:
+
+`Neff_full = 2 × Neff_half`
+
+The corrected values were stored in the `Neff_full`
+column of the LDSC input file.
+
+```bash
+python munge_sumstats.py \
+  --sumstats Anxiety_ANX2026_LDSC_input.txt \
+  --snp SNP \
+  --a1 A1 \
+  --a2 A2 \
+  --p P \
+  --signed-sumstats OR,1 \
+  --N-col Neff_full \
+  --out ANX_LDSC_corrected
+```
+
+The resulting file was:
+
+`ANX_LDSC_corrected.sumstats.gz`
+
+**Important:** The ANX effective sample-size adjustment
+is specific to the input data preparation used in this
+analysis. It should not be applied automatically to
+other GWAS datasets. The original effective sample-size
+definition should be verified before reproducing this step.
 
 ### Heritability Estimation
 
 Univariate LDSC was used to estimate SNP-based heritability.
 
-For MDD and ANX, heritability estimates were converted from the
-observed scale to the liability scale using the following
+For MDD and ANX, observed-scale heritability estimates
+were converted to the liability scale using the following
 parameters:
 
 | Trait | Sample prevalence | Population prevalence | Reported scale |
-|---|---|---|---|
+|---|---:|---:|---|
 | ANM | Not applicable | Not applicable | Observed |
 | MDD | 0.50 | 0.15 | Liability |
 | ANX | 0.50 | 0.20 | Liability |
 
-The assumed sample prevalence of 0.50 reflects the use of
-effective sample sizes for the case-control GWAS datasets.
+The assumed sample prevalence of 0.50 represents a
+balanced case-control equivalent associated with the
+use of effective sample sizes. It does not imply that
+the original GWAS samples contained equal numbers of
+cases and controls.
+
+The MDD population prevalence assumption follows
+Adams et al. (2025), while the ANX prevalence
+assumptions follow Strom et al.
 
 ### LDSC Heritability Commands
 
-The commands below assume that LDSC is installed and that the
-munged GWAS summary statistics and European LD reference files
-are available in the indicated directories.
+The following commands assume that LDSC is installed,
+the munged GWAS summary statistics are available in
+the working directory, and the European LD reference
+files are stored in `eur_w_ld_chr/`.
 
-**ANM**
+#### ANM
 
 ```bash
 python ldsc.py \
@@ -62,7 +180,7 @@ python ldsc.py \
   --out ANM_h2
 ```
 
-**MDD**
+#### MDD
 
 ```bash
 python ldsc.py \
@@ -74,7 +192,7 @@ python ldsc.py \
   --out MDD_h2_liability
 ```
 
-**ANX**
+#### ANX
 
 ```bash
 python ldsc.py \
@@ -94,12 +212,23 @@ python ldsc.py \
 | MDD | 0.0603 | 0.0019 | Liability |
 | ANX | 0.1022 | 0.0038 | Liability |
 
+These estimates were obtained using the corrected
+LDSC summary statistics.
+
+The ANM estimate is based on Cox-model GWAS association
+statistics and should not be interpreted directly as
+the proportion of variance explained in menopause age
+measured in years.
+
 ### Genetic Correlation Analysis
 
-Bivariate LDSC was used to estimate pairwise genetic
-correlations between ANM, MDD, and ANX.
+Bivariate LDSC was used to estimate genome-wide
+pairwise genetic correlations among ANM, MDD, and ANX.
 
-A representative command for ANM–MDD is:
+The same European-ancestry LD reference scores and
+regression weights were used for all three comparisons.
+
+#### ANM–MDD
 
 ```bash
 python ldsc.py \
@@ -109,37 +238,66 @@ python ldsc.py \
   --out ANM_MDD_rg
 ```
 
-The same procedure was repeated for ANM–ANX and MDD–ANX.
+#### ANM–ANX
+
+```bash
+python ldsc.py \
+  --rg ANM_LDSC_corrected.sumstats.gz,ANX_LDSC_corrected.sumstats.gz \
+  --ref-ld-chr eur_w_ld_chr/eur_w_ld_chr. \
+  --w-ld-chr eur_w_ld_chr/eur_w_ld_chr. \
+  --out ANM_ANX_rg
+```
+
+#### MDD–ANX
+
+```bash
+python ldsc.py \
+  --rg MDD_LDSC_corrected.sumstats.gz,ANX_LDSC_corrected.sumstats.gz \
+  --ref-ld-chr eur_w_ld_chr/eur_w_ld_chr. \
+  --w-ld-chr eur_w_ld_chr/eur_w_ld_chr. \
+  --out MDD_ANX_rg
+```
 
 ### Genetic Correlation Results
 
-| Trait pair | Genetic correlation | SE | P-value |
+| Trait pair | Genetic correlation (rg) | SE | P-value |
 |---|---:|---:|---:|
 | ANM–MDD | 0.0499 | 0.0185 | 0.0071 |
 | ANM–ANX | 0.0443 | 0.0220 | 0.0446 |
 | MDD–ANX | 0.9074 | 0.0098 | < 0.00001 |
 
-ANM showed weak positive genetic correlations with MDD and ANX,
-whereas MDD and ANX exhibited a strong positive genetic
-correlation.
+ANM showed weak positive genetic correlations with
+MDD and ANX, whereas MDD and ANX exhibited a strong
+positive genetic correlation.
 
-The ANM–MDD correlation remained significant after
-Bonferroni correction for three pairwise comparisons,
-whereas the ANM–ANX correlation was nominally significant.
+After Bonferroni correction for three pairwise
+comparisons (P < 0.0167), the ANM–MDD and MDD–ANX
+correlations remained statistically significant.
+The ANM–ANX correlation was nominally significant.
 
 ### Reproducibility Notes
 
 - ANM heritability is reported on the observed scale.
-- MDD and ANX heritability estimates are reported on the
-  liability scale.
-- MDD and ANX GWAS effective sample sizes were used during
-  LDSC summary-statistic preparation.
-- The ANM GWAS used Cox proportional hazards effect estimates;
-  therefore, the direction of genetic correlations involving
-  ANM should be interpreted with respect to the GWAS effect coding.
-- GWAS summary statistics and LD reference data must be
-  obtained from their original sources, subject to their
-  respective access conditions.
+- MDD and ANX heritability estimates are reported on
+  the liability scale.
+- MDD GWAS variant-specific effective sample sizes
+  (`NEFF`) were used during munging.
+- ANX effective sample sizes were prepared in the
+  `Neff_full` column before munging.
+- ANM effect estimates were derived from a Cox
+  proportional hazards model. The direction of genetic
+  correlations involving ANM must therefore be
+  interpreted with respect to menopause hazard rather
+  than menopause age directly.
+- The MDD–ANX genetic covariance intercept was
+  0.2652 (SE = 0.0089), consistent with possible
+  sample overlap and/or correlated confounding.
+- GWAS summary statistics and LD reference files
+  must be obtained from their original sources,
+  subject to applicable access conditions.
+- Input filenames and reference directories in the
+  commands above are illustrative relative paths;
+  they should be adjusted to the local installation.
 ```
 
 ## 🟣 ANM Approximate Bayes Factor Fine-Mapping
