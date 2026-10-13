@@ -266,9 +266,12 @@ python ldsc.py \
 | ANM–ANX | 0.0443 | 0.0220 | 0.0446 |
 | MDD–ANX | 0.9074 | 0.0098 | < 0.00001 |
 
-ANM showed weak positive genetic correlations with
-MDD and ANX, whereas MDD and ANX exhibited a strong
-positive genetic correlation.
+Because ANM GWAS effects were estimated on the menopause-hazard scale,
+the weak positive genetic correlations for ANM–MDD (rg = 0.0499) and
+ANM–ANX (rg = 0.0443) indicate positive genetic correlations between
+MDD or ANX liability and menopause hazard, not later menopause age.
+MDD and ANX exhibited a strong positive genetic correlation (rg = 0.9074).
+These genetic correlations do not establish causal relationships.
 
 After Bonferroni correction for three pairwise
 comparisons (P < 0.0167), the ANM–MDD and MDD–ANX
@@ -404,6 +407,14 @@ the marginal TWAS association statistics.
 For each successfully tested gene-expression prediction model, FUSION reports
 a marginal TWAS association statistic, including the TWAS Z-score (`TWAS.Z`)
 and TWAS P-value (`TWAS.P`).
+
+Because the ANM GWAS effect estimates are log-hazard ratios for menopause,
+the direction of TWAS associations is interpreted on the menopause-hazard
+scale. Assuming consistent allele harmonization and expression-prediction
+weight orientation, a positive TWAS Z-score associates higher genetically
+predicted expression with increased menopause hazard, while a negative
+TWAS Z-score associates it with decreased menopause hazard. TWAS
+associations alone do not establish causality.
 
 ### Transcriptome-Wide Significance
 
@@ -550,7 +561,12 @@ association studies.* Nature Genetics. 2016.
 
 Gene-expression Mendelian randomization (MR) was performed to test whether
 genetically predicted expression of ANM-prioritized genes was associated with
-age at natural menopause.
+menopause hazard, using ANM GWAS effect estimates derived from Cox
+proportional hazards regression. With correctly harmonized effect alleles,
+positive MR effect estimates indicate an association between higher
+genetically predicted expression and increased menopause hazard (generally
+earlier menopause), whereas negative estimates indicate decreased menopause
+hazard. Causal interpretation depends on the validity of the MR assumptions.
 
 Analyses were restricted to ANM-prioritized genes identified through FUMA,
 comprising **1,294 FUMA gene records corresponding to 1,288 unique gene
