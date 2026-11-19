@@ -742,7 +742,7 @@ regional cis-eQTL and ANM GWAS variants that pass variant-level quality control.
 
 The eQTL Catalogue GTEx v8 tabix file locations are documented here:
 
-- `https://github.com/eQTL-Catalogue/eQTL-Catalogue-resources/blob/master/tabix/tabix_ftp_paths_imported.tsv`
+- https://github.com/eQTL-Catalogue/eQTL-Catalogue-resources/blob/master/tabix/tabix_ftp_paths_imported.tsv
 
 
 ### Colocalization Workflow
