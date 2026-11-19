@@ -800,7 +800,15 @@ shared-causal-variant hypothesis itself.
 
 ## Citation
 
-If you use this code, please cite the associated publication when available.
+If you use this code, please cite the associated preprint:
+
+Farhang-Sardroodi, S., Madani, A., & Rudzicz, F. (2026). *Integrative Functional Genomics Identifies Candidate Brain and Pituitary Regulatory Mechanisms of Reproductive Aging*. Research Square.
+
+**DOI:** https://doi.org/10.21203/rs.3.rs-11157515/v1
+
+**Preprint:** https://www.researchsquare.com/article/rs-11157515/v1
+
+This manuscript is currently under consideration for publication in *Scientific Reports*. The citation will be updated upon journal publication.
 
 ---
 
