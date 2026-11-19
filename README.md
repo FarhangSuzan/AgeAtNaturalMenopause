@@ -812,6 +812,11 @@ This manuscript is currently under consideration for publication in *Scientific 
 
 ---
 
-**Author**
 
-Suzan Farhang-Sardroodi
+## Author
+
+**Suzan Farhang-Sardroodi, PhD**  
+Former Research Associate  
+Department of Pharmacology and Toxicology  
+Temerty Faculty of Medicine  
+University of Toronto, Canada
