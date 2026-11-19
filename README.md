@@ -529,6 +529,7 @@ TWAS associations represent associations with genetically predicted gene
 expression and do not, by themselves, establish a causal effect of gene
 expression on ANM.
 
+
 ### Code Availability and Reproducibility
 
 The FUSION TWAS workflow used the following scripts:
@@ -536,25 +537,47 @@ The FUSION TWAS workflow used the following scripts:
 - `FUSION.assoc_test.R` — marginal TWAS analysis.
 - `FUSION.post_process.R` — joint/conditional TWAS analysis.
 
-The analysis-specific workflow additionally includes gene-position
-conversion from GRCh38 to GRCh37, preparation of genome-build-harmonized
-joint/conditional input files, documentation of unmapped genes, and
-generation of the corrected Table S4.
+Both scripts are available from the official FUSION GitHub
+repository.
 
-The corresponding analysis-specific scripts and processing steps will be
-provided in this repository to support reproducibility.
+The analysis-specific workflow additionally involved:
 
-### FUSION Resource
+- Conversion of gene positions from GRCh38 to GRCh37.
+- Preparation of genome-build-harmonized joint/conditional
+  input files.
+- Documentation of genes that could not be mapped.
+- Generation of the corrected Supplementary Table S4.
 
-FUSION software, documentation, GTEx v8 prediction models, and reference
-resources are available at:
+The analysis procedures and input requirements are
+described in this repository to support reproducibility.
 
-- http://gusevlab.org/projects/fusion/
+### FUSION Software and Reference Data
+
+FUSION software and source code are publicly available
+from the official GitHub repository:
+
+- https://github.com/gusevlab/fusion_twas
+
+The TWAS analyses used precomputed GTEx v8
+European-ancestry gene-expression prediction models
+for three tissues:
+
+- Brain hypothalamus
+- Ovary
+- Pituitary
+
+Additional reference resources included the 1000 Genomes
+European LD reference panel and ANM GWAS summary statistics.
+
+The GTEx prediction models and LD reference datasets
+were obtained from external resources and are not
+redistributed in this repository.
 
 For the FUSION TWAS methodology:
 
-Gusev A, et al. *Integrative approaches for large-scale transcriptome-wide
-association studies.* Nature Genetics. 2016.
+Gusev A, et al. *Integrative approaches for large-scale
+transcriptome-wide association studies.*
+Nature Genetics. 2016.
 
 
 ## 🟣 GTEx v8 eQTL-Based Mendelian Randomization
